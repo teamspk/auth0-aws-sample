@@ -1,0 +1,12 @@
+{
+  "name": "purchase-pet-example",
+  "version": "0.1.0",
+  "description": "Example for creating a lambda with json web token logic",
+  "license": "MIT",
+  "main": "purchasepet.js",
+   "dependencies": {
+        "aws-sdk":"*",
+        "dynamodb-doc":"*",
+        "jsonwebtoken": "*"
+    }
+}

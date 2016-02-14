@@ -74,8 +74,12 @@ angular.module( 'sample.home', ['auth0'])
   function buyPet(user, id) {
       //window.alert('buyPet not implemented');
     var apigClient = getSecureApiClient();
+    var body = {
+      petId:id,
+      authToken: store.get('token')
+    };
 
-    apigClient.petsPurchasePost({},{userName:user, petId:id})
+    apigClient.petsPurchasePost({}, body)
       .then(function(response) {
         console.log(response);
         $scope.pets = response.data;
