@@ -1,9 +1,8 @@
-comment out apiGateway.core.utils.assertParametersDefined(params, ['Access-Control-Allow-Origin'], 'body']); in apigClient.js
-comment out headers: apiGateway.core.utils.parseParametersToObject(params, ['Access-Control-Allow-Origin']) as well
 
-$append Access-Control-Allow-Origin,x-amz-security-token to Access-Control-Allow-Headers in OPTIONS response
+#append Access-Control-Allow-Origin,x-amz-security-token to Access-Control-Allow-Headers in OPTIONS response
 
-might work if we set Angular's content-type to not generate preflight OPTIONS.
-ref: http://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
+#use RS256 and certificates
 
+ref:
+http://stackoverflow.com/questions/25727306/request-header-field-access-control-allow-headers-is-not-allowed-by-access-contr
 http://dev.classmethod.jp/etc/about-cors/

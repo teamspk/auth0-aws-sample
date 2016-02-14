@@ -1,4 +1,4 @@
 var env={};
-env.AUTH0_SECRET='UDRkmlX1dM8MqSVD3UxuDzTAkZIcg2Bydl9i1XPiwcGkcz9UfwauHgwkdx1hcHth';
+env.AUTH0_SECRET='xxxxxx';
 module.exports = env;
 
