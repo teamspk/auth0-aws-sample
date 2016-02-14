@@ -72,7 +72,18 @@ angular.module( 'sample.home', ['auth0'])
   }
 
   function buyPet(user, id) {
-      window.alert('buyPet not implemented');
+      //window.alert('buyPet not implemented');
+    var apigClient = getSecureApiClient();
+
+    apigClient.petsPurchasePost({},{userName:user, petId:id})
+      .then(function(response) {
+        console.log(response);
+        $scope.pets = response.data;
+        $scope.$apply();
+      }).catch(function (response) {
+        alert('buy pets failed');
+        showError(response);
+    });
   }
   
   $scope.addPets = function() {

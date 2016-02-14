@@ -94,12 +94,12 @@ apigClientFactory.newClient = function (config) {
     apigClient.petsGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        //apiGateway.core.utils.assertParametersDefined(params, ['Access-Control-Allow-Origin'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
         var petsGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/pets').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            //headers: apiGateway.core.utils.parseParametersToObject(params, ['Access-Control-Allow-Origin']),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
@@ -112,17 +112,15 @@ apigClientFactory.newClient = function (config) {
     apigClient.petsPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        //apiGateway.core.utils.assertParametersDefined(params, ['Access-Control-Allow-Origin'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
         var petsPostRequest = {
             verb: 'post'.toUpperCase(),
             path: pathComponent + uritemplate('/pets').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, ['Access-Control-Allow-Origin']),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
-        console.log("post req");
-        console.log(JSON.stringify(petsPostRequest));
         
         
         return apiGatewayClient.makeRequest(petsPostRequest, authType, additionalParams, config.apiKey);
@@ -144,6 +142,42 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(petsOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.petsPurchasePost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var petsPurchasePostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: pathComponent + uritemplate('/pets/purchase').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(petsPurchasePostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.petsPurchaseOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var petsPurchaseOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/pets/purchase').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(petsPurchaseOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 
