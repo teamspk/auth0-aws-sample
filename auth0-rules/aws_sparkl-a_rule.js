@@ -1,13 +1,15 @@
 function (user, context, callback) {
-  if(context.clientID === 'iDC9GHTe9nM2w1L146zn2o7qxEgpoEZI') {
+  if(context.clientID === 'Oz0q5DMFlYVi3kbnM76yqCrqSUErJQIN') {
     var socialRoleInfo = {
       role:"arn:aws:iam::713403314913:role/auth0-api-social-role",
-      principal: "arn:aws:iam::713403314913:saml-provider/auth0-provider"
+      principal: "arn:aws:iam::713403314913:saml-provider/auth0-provider",
+      isAdmin: false
     };
 
     var adminRoleInfo = {
       role:"arn:aws:iam::713403314913:role/auth0-api-role",
-      principal: "arn:aws:iam::713403314913:saml-provider/auth0-provider"
+      principal: "arn:aws:iam::713403314913:saml-provider/auth0-provider",
+      isAdmin: true
     };
 
     var requestRole = context.request.body.role;
@@ -33,7 +35,39 @@ function (user, context, callback) {
     context.addonConfiguration.aws.role = allowedRole.role;
     context.addonConfiguration.aws.principal = allowedRole.principal;
     callback(null, user, context);
+    
+    
+/*    
+    user.app_metadata = user.app_metadata || {};
+    
+    var addRolesToUser = function(user, cb) {
+    if (typeof(user.email) !== undefined) {
+      if (user.email.indexOf('@gonto.com') > -1) {
+        cb(null, {roles: ['admin']});
+      }
+    } else {
+      cb(null, {roles: ['user']});
+    }
+  };
 
+  addRolesToUser(user, function(err, roles) {
+    if (err) {
+      callback(err);
+    } else {
+      user.app_metadata.Oz0q5DMFlYVi3kbnM76yqCrqSUErJQIN = roles;
+      auth0.users.updateAppMetadata(user.user_id, user.app_metadata)
+        .then(function(){
+          callback(null, user, context);
+        })
+        .catch(function(err){
+          callback(err);
+        });
+    }
+  });
+*/  
+
+    
+    
   } else {
     callback(null, user, context);
   }
