@@ -1,0 +1,70 @@
+<style>
+    .delete-btn { font-size:14px; background-color:red; }
+    .buy-btn { font-size:14px; background-color:green; }
+    .sm-btn { font-size:16px;}
+    .sm-txt { text-align: left; font-size:16px;}
+    .msgtext {text-align: left; font:18px;}
+</style>
+
+<div class="home">
+  <h1 id="logo"><img src="/home/auth0_logo_final_blue_RGB.png" /></h1>
+  <h2>{{profile.name}}'s appointments!</h2>
+
+  <div ng-repeat="a in appointments track by a.created_at">
+    <div class="row" ng-show="!a.isSold">
+      <div class="col-md-1 col-md-offset-2" style='text-align:left;'>
+          <button ng-show="isAdmin" class="btn delete-btn" ng-click="removePet(a.id)">remove</button>
+          <button ng-show="!isAdmin && !a.confirmed_at" class="btn buy-btn" ng-click="buyPet([a.client_project, a.created_at])">Confirm</button>
+       </div>
+        <div class="col-md-7 msgtext" >
+            <table class="table">
+              <thead>
+                <!--<th style="width: 50%">Attendees</th>-->
+                <th>Attendees</th>
+                <th>Summary</th>
+                <th>Documents</th>
+                <th>Confirmed</th>
+              </thead>
+              <tbody class="files">
+                <tr>
+                  <!--<td colspan="5" style="text-align: center; padding: 30px"><img src="img/loading_black.gif" /></td>-->
+                  <td>{{a.appointment.attendees}}</td>
+                  <td>{{a.appointment.summary}}</td>
+                  <td>{{a.appointment.documents}}</td>
+                  <td>{{a.confirmed_at}}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+
+    </div>
+  </div>
+<!--
+  <div ng-repeat="a in appointments track by a.created_at">
+    <div class="row" ng-show="a.confirmed_at">
+      <div class="col-md-1 col-md-offset-2" style='text-align:left;'>
+          <button ng-show="isAdmin" class="btn delete-btn" ng-click="removePet(pet.id)">remove</button>
+      </div>
+      <div class="col-md-8 msgtext" >Confirmed on {{a.confirmed_at}}</div>
+    </div>
+  </div>
+  <br />
+-->
+
+  <button class="btn sm-btn" ng-click="addPets()" ng-hide="adding || !isAdmin">Add Appointment</button>
+
+  <div ng-show="adding">
+        <span class="sm-txt">
+            <label>Project:&nbsp;</label><input type="text" size="50" placeholder="appointment" ng-model="client_project"></input><br />
+            <label>Attendees:&nbsp;</label><input type="text" size="50" ng-model="appointment.attendees"></input><br />
+            <label>Summary:&nbsp;&nbsp;</label><textarea rows="10" cols="48" ng-model="appointment.summary"></textarea> <br />
+            <label>Documents:&nbsp;</label><input type="text" size="50" ng-model="appointment.documents"></input> <br />
+            <!--TODO: use type="url" and disable save button on default -->
+        <span>
+        <button class="btn sm-btn" ng-click="savePet()">save</button>
+        <button class="btn sm-btn" ng-click="cancelAddPet()">cancel</button>
+  </div>
+
+  <br /><br />
+  <button class="btn btn-warning sm-btn" ng-click="logout()">Logout</button>
+</div>

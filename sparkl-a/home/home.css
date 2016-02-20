@@ -101,3 +101,10 @@ label.ng-binding{
   padding-left: 10%;
   margin-bottom: 20px;
 }
+
+.sm-text span{
+  font-family: "proxima-nova",sans-serif;
+  text-align: center;
+  font-size: 100%;
+  font-weight: 100;
+}

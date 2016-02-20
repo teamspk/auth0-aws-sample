@@ -27,7 +27,7 @@ angular.module( 'sample.login', [
   $scope.login = function() {
      var params = {
         authParams: {
-          scope: 'openid email' 
+          scope: 'openid email Oz0q5DMFlYVi3kbnM76yqCrqSUErJQIN' 
         }
       };
 
@@ -38,7 +38,9 @@ angular.module( 'sample.login', [
       store.set('token', token);
 
       // get delegation token from identity token. 
+      console.log('getting delegation tokens');
       var options = getOptionsForRole(profile.isAdmin, token);
+      console.log('got delegation tokens!');
 
       // TODO: Step 3: Enable this section once you setup AWS delegation.
 

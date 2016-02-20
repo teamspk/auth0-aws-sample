@@ -52,7 +52,7 @@ apigClientFactory.newClient = function (config) {
     }
 
     
-    var endpoint = 'https://cvcu3ys3eg.execute-api.ap-northeast-1.amazonaws.com/prod';
+    var endpoint = 'https://63u8wwkbh3.execute-api.ap-northeast-1.amazonaws.com/prod';
     var parser = document.createElement('a');
     parser.href = endpoint;
 
@@ -91,93 +91,93 @@ apigClientFactory.newClient = function (config) {
     
     
     
-    apigClient.petsGet = function (params, body, additionalParams) {
+    apigClient.appointmentsGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var petsGetRequest = {
+        var appointmentsGetRequest = {
             verb: 'get'.toUpperCase(),
-            path: pathComponent + uritemplate('/pets').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/appointments').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(petsGetRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(appointmentsGetRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.petsPost = function (params, body, additionalParams) {
+    apigClient.appointmentsPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var petsPostRequest = {
+        var appointmentsPostRequest = {
             verb: 'post'.toUpperCase(),
-            path: pathComponent + uritemplate('/pets').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/appointments').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(petsPostRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(appointmentsPostRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.petsOptions = function (params, body, additionalParams) {
+    apigClient.appointmentsOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var petsOptionsRequest = {
+        var appointmentsOptionsRequest = {
             verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/pets').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/appointments').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(petsOptionsRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(appointmentsOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.petsPurchasePost = function (params, body, additionalParams) {
+    apigClient.appointmentsConfirmPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var petsPurchasePostRequest = {
+        var appointmentsConfirmPostRequest = {
             verb: 'post'.toUpperCase(),
-            path: pathComponent + uritemplate('/pets/purchase').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/appointments/confirm').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(petsPurchasePostRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(appointmentsConfirmPostRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.petsPurchaseOptions = function (params, body, additionalParams) {
+    apigClient.appointmentsConfirmOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var petsPurchaseOptionsRequest = {
+        var appointmentsConfirmOptionsRequest = {
             verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/pets/purchase').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/appointments/confirm').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(petsPurchaseOptionsRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(appointmentsConfirmOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 
