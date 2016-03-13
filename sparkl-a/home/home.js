@@ -1,9 +1,10 @@
 angular.module( 'sample.home', ['auth0'])
-.controller( 'HomeCtrl', function HomeController( $scope, auth, $http, $location, store ) {
+.controller( 'HomeCtrl', function HomeController( $scope, auth, $http, $location, store, $sce ) {
   $scope.appointments = [];
   $scope.isAdmin = store.get('profile').isAdmin;
   $scope.profile = store.get('profile');
   $scope.adding = false;
+  $scope.iframeUrl = '';
 
   function showError(response) {
     if (response instanceof Error) {
@@ -34,6 +35,13 @@ angular.module( 'sample.home', ['auth0'])
         console.log("got pets");
         console.log(response);
         console.log(response.data);
+        //response.data[8].appointment.documents = $sce.trustAsHtml('http://google.com');
+        var url = response.data[8].appointment.documents
+        //response.data[8].appointment.documents = $sce.trustAsHtml('<iframe src="' + url + '?direction=ASC&theme=dark" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>');
+        for (var i=0; i < response.data.length; i++) {
+            response.data[i].appointment.documents = $sce.trustAsResourceUrl(response.data[i].appointment.documents);
+//            response.data[i].appointment.summary = $sce.trustAsResourceUrl(response.data[i].appointment.summary);
+        }
         $scope.appointments = response.data;
         $scope.$apply();
       }).catch(function (response) {

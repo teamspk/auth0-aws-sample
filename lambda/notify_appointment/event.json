@@ -1,0 +1,83 @@
+{
+    "Records": [{
+        "eventID": "4ce95459e7c7f38d98b9fe18664d3fb3",
+        "eventVersion": "1.0",
+        "dynamodb": {
+            "OldImage": {
+                "client_project": {
+                    "S": "appo"
+                },
+                "created_at": {
+                    "S": "2016/02/19"
+                },
+                "title": {
+                    "S": "about appointments"
+                },
+                "appointment": {
+                    "M": {
+                        "documents": {
+                            "S": "http://dropbox.com/aaa"
+                        },
+                        "attendees": {
+                            "S": "ijin, shingo"
+                        },
+                        "id": {
+                            "N": "1"
+                        },
+                        "summary": {
+                            "S": "aaaa bbbb ccccc"
+                        }
+                    }
+                },
+                "confirmed_at": {
+                    "S": "none"
+                }
+            },
+            "SequenceNumber": "118580600000000001117424020",
+            "Keys": {
+                "client_project": {
+                    "S": "appo"
+                },
+                "created_at": {
+                    "S": "2016/02/19"
+                }
+            },
+            "SizeBytes": 382,
+            "NewImage": {
+                "client_project": {
+                    "S": "appo"
+                },
+                "created_at": {
+                    "S": "2016/02/19"
+                },
+                "title": {
+                    "S": "about appointments"
+                },
+                "appointment": {
+                    "M": {
+                        "documents": {
+                            "S": "http://dropbox.com/aaa"
+                        },
+                        "attendees": {
+                            "S": "ijin, shingo"
+                        },
+                        "id": {
+                            "N": "1"
+                        },
+                        "summary": {
+                            "S": "aaaa bbbb ccccc"
+                        }
+                    }
+                },
+                "confirmed_at": {
+                    "S": "NA"
+                }
+            },
+            "StreamViewType": "NEW_AND_OLD_IMAGES"
+        },
+        "awsRegion": "ap-northeast-1",
+        "eventName": "MODIFY",
+        "eventSourceARN": "arn:aws:dynamodb:ap-northeast-1:713403314913:table/sparkl-appointments2/stream/2016-03-18T14:59:46.954",
+        "eventSource": "aws:dynamodb"
+    }]
+}

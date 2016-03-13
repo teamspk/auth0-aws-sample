@@ -1,6 +1,7 @@
 angular.module( 'sample', [
   'auth0',
   'ngRoute',
+  'ngSanitize',
   'sample.home',
   'sample.login',
   'angular-storage',
