@@ -13,26 +13,32 @@
   <div ng-repeat="a in appointments track by a.created_at">
     <div class="row" ng-show="!a.isSold">
       <div class="col-md-1 col-md-offset-2" style='text-align:left;'>
-          <button ng-show="isAdmin" class="btn delete-btn" ng-click="removePet(a.id)">remove</button>
-          <button ng-show="!isAdmin && !a.confirmed_at" class="btn buy-btn" ng-click="buyPet([a.client_project, a.created_at])">Confirm</button>
+          <button ng-show="isAdmin" class="btn delete-btn" ng-click="removeAppointment(a.id)">remove</button>
+          <button ng-show="!isAdmin && !a.confirmed_at" class="btn buy-btn" ng-click="confirmAppointment([a.client_project, a.created_at])">Confirm</button>
        </div>
         <div class="col-md-7 msgtext" >
             <table class="table">
-              <thead>
-                <!--<th style="width: 50%">Attendees</th>-->
-                <th>Attendees</th>
-                <th>Summary</th>
-                <th>Documents</th>
-                <th>Confirmed</th>
-              </thead>
               <tbody class="files">
-                <tr>
-                  <!--<td colspan="5" style="text-align: center; padding: 30px"><img src="img/loading_black.gif" /></td>-->
-                  <td>{{a.appointment.attendees}}</td>
-                  <td>{{a.appointment.summary}}</td>
-                  <td>{{a.appointment.documents}}</td>
-                  <td>{{a.confirmed_at}}</td>
-                </tr>
+              <tr>
+                <th>Attendees</th>
+                <td>{{a.appointment.attendees}}</td>
+              </tr>
+              <tr>
+                <th>Summary</th>
+                <td><pre>{{a.appointment.summary}}</pre></td>
+              </tr>
+              <tr>
+                <th>Documents</th>
+                <td>
+                    <iframe ng-src="{{a.appointment.documents}}" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>
+                    <!--      <iframe ng-src="{{a.appointment.documents}}" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>-->
+                    <!--                    <iframe src="a.appointment.documents?direction=ASC&theme=dark" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen> </iframe>-->
+                </td>
+              </tr>
+              <tr>
+                <th>Confirmed</th>
+                <td>{{a.confirmed_at}}</td>
+              </tr>
               </tbody>
             </table>
         </div>
@@ -43,7 +49,7 @@
   <div ng-repeat="a in appointments track by a.created_at">
     <div class="row" ng-show="a.confirmed_at">
       <div class="col-md-1 col-md-offset-2" style='text-align:left;'>
-          <button ng-show="isAdmin" class="btn delete-btn" ng-click="removePet(pet.id)">remove</button>
+          <button ng-show="isAdmin" class="btn delete-btn" ng-click="removeAppointment(pet.id)">remove</button>
       </div>
       <div class="col-md-8 msgtext" >Confirmed on {{a.confirmed_at}}</div>
     </div>
@@ -51,7 +57,7 @@
   <br />
 -->
 
-  <button class="btn sm-btn" ng-click="addPets()" ng-hide="adding || !isAdmin">Add Appointment</button>
+  <button class="btn sm-btn" ng-click="addAppointment()" ng-hide="adding || !isAdmin">Add Appointment</button>
 
   <div ng-show="adding">
         <span class="sm-txt">
@@ -61,8 +67,8 @@
             <label>Documents:&nbsp;</label><input type="text" size="50" ng-model="appointment.documents"></input> <br />
             <!--TODO: use type="url" and disable save button on default -->
         <span>
-        <button class="btn sm-btn" ng-click="savePet()">save</button>
-        <button class="btn sm-btn" ng-click="cancelAddPet()">cancel</button>
+        <button class="btn sm-btn" ng-click="saveAppointment()">save</button>
+        <button class="btn sm-btn" ng-click="cancelAddAppointment()">cancel</button>
   </div>
 
   <br /><br />

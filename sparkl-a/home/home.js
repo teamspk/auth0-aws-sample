@@ -22,30 +22,27 @@ angular.module( 'sample.home', ['auth0'])
     return "bearer " + token;
   }
 
-  function getPets() {
-//    window.alert('getPets not implemented');
+  function getAppointments() {
+//    window.alert('getAppointments not implemented');
     // this is unauthenticated
     var apigClient = apigClientFactory.newClient({
         region: 'ap-northeast-1' // The region where the API is deployed
     });
 
-    console.log("getting pets");
+    console.log("getting appointments");
     apigClient.appointmentsGet({},{})
       .then(function(response) {
-        console.log("got pets");
+        console.log("got appointments");
         console.log(response);
         console.log(response.data);
-        //response.data[8].appointment.documents = $sce.trustAsHtml('http://google.com');
         var url = response.data[8].appointment.documents
-        //response.data[8].appointment.documents = $sce.trustAsHtml('<iframe src="' + url + '?direction=ASC&theme=dark" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>');
         for (var i=0; i < response.data.length; i++) {
             response.data[i].appointment.documents = $sce.trustAsResourceUrl(response.data[i].appointment.documents);
-//            response.data[i].appointment.summary = $sce.trustAsResourceUrl(response.data[i].appointment.summary);
         }
         $scope.appointments = response.data;
         $scope.$apply();
       }).catch(function (response) {
-        alert('pets get failed');
+        alert('getting appointments failed');
         showError(response);
     });
   }
@@ -62,8 +59,8 @@ angular.module( 'sample.home', ['auth0'])
     });
   }
 
-  function putPets(client_pj, newAppointment) {
-      //window.alert('putPets not implemented');
+  function putAppointment(client_pj, newAppointment) {
+      //window.alert('putAppointment not implemented');
     var body = {client_project: client_pj, appointment: newAppointment};
 
     //var apigClient = apigClientFactory.newClient({
@@ -82,36 +79,36 @@ angular.module( 'sample.home', ['auth0'])
   }
 
   // TODO: change to dicsussion_id
-  function buyPet(user, params) {
-      //window.alert('buyPet not implemented');
+  function confirmAppointment(user, params) {
+      //window.alert('confirmAppointment not implemented');
     var apigClient = getSecureApiClient();
     var body = {
       client_project: params[0],
       created_at : params[1],
       authToken: store.get('token')
     };
-    console.log('buyPet with params', body);
+    console.log('confirmAppointment with params', body);
 
     apigClient.appointmentsConfirmPost({}, body)
       .then(function(response) {
         console.log(response);
-        console.log('appointments before assign in buyPet:');
+        console.log('appointments before assign in confirmAppointment:');
         console.log($scope.appointments);
         //$scope.appointments = [response.data]; //[{}] one data MAYBE this should be another table
         //$scope.appointments.forEach( function(e, i, arr) {
             //if (e.client_project == body.client_project && e.created_at = body.created_at) {
         for (k in $scope.appointments) {
             if ($scope.appointments[k].client_project == body.client_project && $scope.appointments[k].created_at == body.created_at) {
-                console.log('Replaceing ' + JSON.stringify($scope.appointments[k]) + ' with ' + JSON.stringify(response.data))
+                console.log('Replaeing ' + JSON.stringify($scope.appointments[k]) + ' with ' + JSON.stringify(response.data))
                 $scope.appointments[k] = response.data;
                 break;
             }
         }
         //$scope.appointments.push(response.data); //[{}] one data MAYBE this should be another table
-        console.log('after assining appointments in buyPet');
+        console.log('after assining appointments in confirmAppointment');
         console.log($scope.appointments);
         //$scope.appointments = [response.data]; //[{}] one data MAYBE this should be another table
-        console.log('before apply in buyPet');
+        console.log('before apply in confirmAppointment');
         //console.log(response.data); {}
         $scope.$apply();
         console.log('applied');
@@ -121,15 +118,15 @@ angular.module( 'sample.home', ['auth0'])
     });
   }
   
-  $scope.addPets = function() {
+  $scope.addAppointment = function() {
     $scope.adding = true;
   }
 
-  $scope.cancelAddPet = function() {
+  $scope.cancelAddAppointment = function() {
     $scope.adding = false;
   }
 
-  $scope.removePet = function(id) {
+  $scope.removeAppointment = function(id) {
     var index = -1;
 
      angular.forEach($scope.appointments, function(p, i) {
@@ -138,17 +135,17 @@ angular.module( 'sample.home', ['auth0'])
     
      if(index >= 0) {
         $scope.appointments.splice(index, 1);
-        putPets($scope.appointments);
+        putAppointment($scope.appointments);
      }
   }
 
-  $scope.buyPet = function(id) {
+  $scope.confirmAppointment = function(id) {
     var profile = store.get('profile');
     var user = profile.name || profile.email;
-    buyPet(user, id);
+    confirmAppointment(user, id);
   }
 
-  $scope.savePet = function() {
+  $scope.saveAppointment = function() {
     //var maxid = 0;
 
     //angular.forEach($scope.appointments, function(p) {
@@ -157,7 +154,6 @@ angular.module( 'sample.home', ['auth0'])
     
     var newAppointment = {};
     var client_pj = "";
-    //newPet.id = maxid + 1;
     client_pj = $scope.client_project;
     newAppointment.attendees= $scope.appointment.attendees;
     newAppointment.summary = $scope.appointment.summary;
@@ -166,11 +162,10 @@ angular.module( 'sample.home', ['auth0'])
     $scope.appointment.summary = "";
     $scope.appointment.documents = "";
     $scope.appointments.push({client_project: client_pj, appointment: newAppointment, created_at: 'now'});
-    //putPets($scope.appointments);
     console.log('going to save new appointment: ');
     console.log(newAppointment);
     console.log(client_pj);
-    putPets(client_pj, newAppointment);
+    putAppointment(client_pj, newAppointment);
     $scope.adding = false;
   }
 
@@ -181,6 +176,6 @@ angular.module( 'sample.home', ['auth0'])
     $location.path('/login');
   }
 
-  getPets();
+  getAppointments();
 
 });
