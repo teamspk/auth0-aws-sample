@@ -16,13 +16,13 @@ exports.handler = function(event, context) {
     var userEmail = '';
     var appointment = {};
 
-    // callback for reading pet info from dynamodb
+    // callback for reading appointment info from dynamodb
     var readcb = function(err, data) {
         if(err) {
-            console.log('error on GetPetsInfo: ',err);
-            context.done('failed to retrieve pet information', null);
+            console.log('error on GetAppointmentInfo: ',err);
+            context.done('failed to retrieve appointment information', null);
         } else {
-            // make sure we have pets
+            // make sure we have appointments
             console.log('reading::::');
             console.log(data);
             appointment = data.Items[0];
@@ -43,17 +43,17 @@ exports.handler = function(event, context) {
         }
     };
 
-    // callback for writing pet info back to dynamddb.
+    // callback for writing appointment info back to dynamddb.
     var writecb = function(err, data) {
         if(!err) {
             context.done(null, appointment);
         } else {
-            console.log('error on GetPetsInfo: ',err);
+            console.log('error on GetAppointmentInfo: ',err);
             context.done('failed on update', null);
         }
     };
 
-   // purchase execution logic.
+   // confirmation execution logic.
     if(event.authToken) {
         //var secretBuf = new Buffer(secret, 'base64');
         var secretBuf = fs.readFileSync('public.pem');
