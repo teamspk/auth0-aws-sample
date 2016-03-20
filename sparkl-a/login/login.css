@@ -1,3 +1,21 @@
 .login-page .login-box {
-  padding: 100px 0;
+  margin: 5% auto;
+  background: #f7f7f9;
+  width: 320px;
+  text-align: center;
+  padding: 40px 10px;
+  border-radius: 1px;
+  border-color: #e1e1e8;
+  border-style: solid;
 }
+.login-page .login-box .btn.btn-primary {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-top: 20px;
+}
+.login-page .login-box .btn.btn-primary i {
+  margin-right: 10px;
+}
+

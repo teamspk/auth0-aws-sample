@@ -1,6 +1,7 @@
 <style>
     .delete-btn { font-size:14px; background-color:red; }
-    .buy-btn { font-size:14px; background-color:green; }
+    .btn-confirm { font-size:14px; background-color:green; }
+    .btn-confirmed { font-size:14px; background-color:#5cb85c; }
     .sm-btn { font-size:16px;}
     .sm-txt { text-align: left; font-size:16px;}
     .msgtext {text-align: left; font:18px;}
@@ -11,11 +12,14 @@
   <h2>{{profile.name}}'s appointments!</h2>
 
   <div ng-repeat="a in appointments track by a.created_at">
+    <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
     <div class="row" ng-show="!a.isSold">
-      <div class="col-md-1 col-md-offset-2" style='text-align:left;'>
-          <button ng-show="isAdmin" class="btn delete-btn" ng-click="removeAppointment(a.id)">remove</button>
-          <button ng-show="!isAdmin && !a.confirmed_at" class="btn buy-btn" ng-click="confirmAppointment([a.client_project, a.created_at])">Confirm</button>
-       </div>
+        <div class="col-md-2 col-md-offset-1" style='text-align:left;'>
+          <!--<button ng-show="isAdmin" class="btn delete-btn" ng-click="removeAppointment(a.id)">remove</button>-->
+          <button ng-show="isAdmin && !a.confirmed_at" class="btn delete-btn disabled">Unconfirmed</button>
+          <button ng-show="!isAdmin && !a.confirmed_at" class="btn btn-confirm" ng-click="confirmAppointment([a.client_project, a.created_at])">Confirm</button>
+          <button ng-show="a.confirmed_at" class="btn btn-confirmed disabled">Confirmed</button>
+        </div>
         <div class="col-md-7 msgtext" >
             <table class="table">
               <tbody class="files">

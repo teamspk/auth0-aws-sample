@@ -35,9 +35,10 @@ angular.module( 'sample.home', ['auth0'])
         console.log("got appointments");
         console.log(response);
         console.log(response.data);
-        var url = response.data[8].appointment.documents
         for (var i=0; i < response.data.length; i++) {
-            response.data[i].appointment.documents = $sce.trustAsResourceUrl(response.data[i].appointment.documents);
+            if (response.data[i].appointment) {
+                response.data[i].appointment.documents = $sce.trustAsResourceUrl(response.data[i].appointment.documents);
+            }
         }
         $scope.appointments = response.data;
         $scope.$apply();
