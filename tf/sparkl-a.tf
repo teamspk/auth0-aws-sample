@@ -203,7 +203,7 @@ resource "aws_api_gateway_method" "appointments_options" {
 resource "aws_api_gateway_method" "confirm_post" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
   resource_id = "${aws_api_gateway_resource.confirm.id}"
-  http_method = "OPTIONS"
+  http_method = "POST"
   authorization = "NONE"
 }
 
