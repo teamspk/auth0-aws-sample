@@ -415,6 +415,9 @@ resource "aws_api_gateway_integration_response" "confirm_options_200" {
   # Access-Control-Allow-Origin  = '*'
 }
 
+# TODO
+# Wait for https://github.com/hashicorp/terraform/pull/5893 (something wrong with selection_pattern?)
 # Enable CORS
+# Are headers even implemented yet? - https://github.com/hashicorp/terraform/issues/6092
 # Response headers 
 # Integration Response headers 
