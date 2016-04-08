@@ -155,3 +155,13 @@ resource "aws_iam_role_policy" "lambda_dynamo_streams" {
 }
 EOF
 }
+
+
+# API GW
+
+## REST API
+resource "aws_api_gateway_rest_api" "sparkl-a" {
+  name = "sparkl-a"
+  description = "sparkl appointments"
+}
+
