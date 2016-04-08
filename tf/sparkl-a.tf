@@ -215,7 +215,7 @@ resource "aws_api_gateway_method" "confirm_options" {
 }
 
 
-# Integrations
+## Integrations
 resource "aws_api_gateway_integration" "appointments_get" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
   resource_id = "${aws_api_gateway_resource.appointments.id}"
@@ -265,3 +265,81 @@ resource "aws_api_gateway_integration" "confirm_options" {
   uri = "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:951720451008:function:NoOp/invocations"
   depends_on = ["aws_api_gateway_method.confirm_post"]
 }
+
+
+## Method responses
+resource "aws_api_gateway_method_response" "appointments_get_200" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "${aws_api_gateway_method.appointments_get.http_method}"
+  status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
+  # Access-Control-Allow-Methods
+  # Access-Control-Allow-Origin
+}
+
+resource "aws_api_gateway_method_response" "appointments_post_200" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "${aws_api_gateway_method.appointments_post.http_method}"
+  status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
+  # Access-Control-Allow-Methods
+  # Access-Control-Allow-Origin
+}
+
+resource "aws_api_gateway_method_response" "appointments_options_200" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "${aws_api_gateway_method.appointments_options.http_method}"
+  status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
+  # Access-Control-Allow-Headers
+  # Access-Control-Allow-Methods
+  # Access-Control-Allow-Origin
+}
+
+resource "aws_api_gateway_method_response" "confirm_post_200" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.confirm.id}"
+  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
+  status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
+  # Access-Control-Allow-Origin
+}
+
+resource "aws_api_gateway_method_response" "confirm_post_403" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.confirm.id}"
+  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
+  status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
+  # Access-Control-Allow-Origin
+}
+
+resource "aws_api_gateway_method_response" "confirm_options_200" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.confirm.id}"
+  http_method = "${aws_api_gateway_method.confirm_options.http_method}"
+  status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
+  # Access-Control-Allow-Headers
+  # Access-Control-Allow-Methods
+  # Access-Control-Allow-Origin
+}
+
+
+# Enable CORS
+# Response headers 
