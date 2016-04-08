@@ -178,3 +178,41 @@ resource "aws_api_gateway_resource" "confirm" {
   path_part = "confirm"
 }
 
+## Methods
+resource "aws_api_gateway_method" "appointments_get" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_method" "appointments_post" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "POST"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_method" "appointments_options" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_method" "confirm_post" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.confirm.id}"
+  http_method = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_method" "confirm_options" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.confirm.id}"
+  http_method = "OPTIONS"
+  authorization = "NONE"
+}
+
+
+
