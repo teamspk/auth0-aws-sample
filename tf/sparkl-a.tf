@@ -215,4 +215,33 @@ resource "aws_api_gateway_method" "confirm_options" {
 }
 
 
+# Integrations
+resource "aws_api_gateway_integration" "appointments_get" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "${aws_api_gateway_method.appointments_get.http_method}"
+  integration_http_method = "POST"
+  type = "AWS"
+  uri = "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:951720451008:function:SparklGetAppointments/invocations"
+  depends_on = ["aws_api_gateway_method.appointments_get"]
+}
 
+resource "aws_api_gateway_integration" "appointments_post" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "${aws_api_gateway_method.appointments_post.http_method}"
+  integration_http_method = "POST"
+  type = "AWS"
+  uri = "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:951720451008:function:SparklCreateAppointment/invocations"
+  depends_on = ["aws_api_gateway_method.appointments_post"]
+}
+
+resource "aws_api_gateway_integration" "appointments_options" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.appointments.id}"
+  http_method = "${aws_api_gateway_method.appointments_options.http_method}"
+  integration_http_method = "POST"
+  type = "AWS"
+  uri = "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:951720451008:function:NoOp/invocations"
+  depends_on = ["aws_api_gateway_method.appointments_post"]
+}
