@@ -421,3 +421,13 @@ resource "aws_api_gateway_integration_response" "confirm_options_200" {
 # Are headers even implemented yet? - https://github.com/hashicorp/terraform/issues/6092
 # Response headers 
 # Integration Response headers 
+
+
+# aws --region ap-northeast-1 --profile sparkl apigateway get-rest-apis --output table
+# export rest_id=$(aws --region ap-northeast-1 --profile sparkl apigateway get-rest-apis --query 'items[?name==`sparkl-a`].id' --output text)
+# aws --region ap-northeast-1 --profile sparkl apigateway get-resources --rest-api-id $rest_id --output table
+# export appo_resource_id=$(aws --region ap-northeast-1 --profile sparkl apigateway get-resources --rest-api-id $rest_id --query 'items[?pathPart==`appointments`].id' --output text)
+# export confirm_resource_id=$(aws --region ap-northeast-1 --profile sparkl apigateway get-resources --rest-api-id $rest_id --query 'items[?pathPart==`confirm`].id' --output text)
+# aws --region ap-northeast-1 --profile sparkl apigateway put-method-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method POST --status-code 403 --response-models '{"application/json": "Empty"}' --response-parameters '{"method.response.header.Access-Control-Allow-Origin":true}'
+# aws --region ap-northeast-1 --profile sparkl apigateway put-integration-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method POST --status-code 403 --response-templates '{"application/json": ""}' --selection-pattern ".*(fail|not available).*"
+
