@@ -316,16 +316,16 @@ resource "aws_api_gateway_method_response" "confirm_post_200" {
   # Access-Control-Allow-Origin
 }
 
-resource "aws_api_gateway_method_response" "confirm_post_403" {
-  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
-  resource_id = "${aws_api_gateway_resource.confirm.id}"
-  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
-  status_code = "200"
-  response_models = {
-    "application/json" = "Empty"
-  }
-  # Access-Control-Allow-Origin
-}
+#resource "aws_api_gateway_method_response" "confirm_post_403" {
+#  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+#  resource_id = "${aws_api_gateway_resource.confirm.id}"
+#  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
+#  status_code = "200"
+#  response_models = {
+#    "application/json" = "Empty"
+#  }
+#  # Access-Control-Allow-Origin
+#}
 
 resource "aws_api_gateway_method_response" "confirm_options_200" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
@@ -389,17 +389,17 @@ resource "aws_api_gateway_integration_response" "confirm_post_200" {
   # Access-Control-Allow-Origin  = '*'
 }
 
-resource "aws_api_gateway_integration_response" "confirm_post_403" {
-  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
-  resource_id = "${aws_api_gateway_resource.confirm.id}"
-  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
-  status_code = "${aws_api_gateway_method_response.confirm_post_403.status_code}"
-  #selection_pattern = ".*(fail|not available).*"
-  response_templates = {
-    "application/json" = ""
-  }
-  # Access-Control-Allow-Origin  = '*'
-}
+#resource "aws_api_gateway_integration_response" "confirm_post_403" {
+#  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+#  resource_id = "${aws_api_gateway_resource.confirm.id}"
+#  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
+#  status_code = "${aws_api_gateway_method_response.confirm_post_403.status_code}"
+#  #selection_pattern = ".*(fail|not available).*"
+#  response_templates = {
+#    "application/json" = ""
+#  }
+#  # Access-Control-Allow-Origin  = '*'
+#}
 
 resource "aws_api_gateway_integration_response" "confirm_options_200" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
