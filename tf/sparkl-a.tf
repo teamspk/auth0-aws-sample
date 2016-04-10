@@ -94,8 +94,8 @@ resource "aws_iam_role_policy" "LogAndDynamoDBAccess" {
                 "dynamodb:Query"
             ],
             "Resource": [
-                "arn:aws:dynamodb:ap-northeast-1:713403314913:table/Pets",
-                "arn:aws:dynamodb:ap-northeast-1:713403314913:table/sparkl-*"
+                "arn:aws:dynamodb:ap-northeast-1:951720451008:table/Pets",
+                "arn:aws:dynamodb:ap-northeast-1:951720451008:table/sparkl-*"
             ]
         }
     ]
@@ -414,6 +414,39 @@ resource "aws_api_gateway_integration_response" "confirm_options_200" {
   # Access-Control-Allow-Methods = 'POST, GET, OPTIONS'
   # Access-Control-Allow-Origin  = '*'
 }
+
+resource "aws_api_gateway_deployment" "sparkl-a_deployment" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  depends_on = ["aws_api_gateway_integration.appointments_get"]
+  stage_name = "prod"
+}
+
+# Permissions
+resource "aws_lambda_permission" "apigw_appo_get" {
+  statement_id = "apigw_appo_get"
+  action = "lambda:InvokeFunction"
+  function_name = "SparklGetAppointments"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:ap-northeast-1:951720451008:${aws_api_gateway_rest_api.sparkl-a.id}/*/GET/${aws_api_gateway_resource.appointments.path_part}"
+}
+
+resource "aws_lambda_permission" "apigw_appo_post" {
+  statement_id = "apigw_appo_post"
+  action = "lambda:InvokeFunction"
+  function_name = "SparklCreateAppointment"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:ap-northeast-1:951720451008:${aws_api_gateway_rest_api.sparkl-a.id}/*/POST/${aws_api_gateway_resource.appointments.path_part}"
+}
+
+resource "aws_lambda_permission" "apigw_appo_options" {
+  statement_id = "apigw_appo_options"
+  action = "lambda:InvokeFunction"
+  function_name = "NoOp"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:ap-northeast-1:951720451008:${aws_api_gateway_rest_api.sparkl-a.id}/*/OPTIONS/${aws_api_gateway_resource.appointments.path_part}"
+}
+
+
 
 # TODO
 # Wait for https://github.com/hashicorp/terraform/pull/5893 (something wrong with selection_pattern?)
