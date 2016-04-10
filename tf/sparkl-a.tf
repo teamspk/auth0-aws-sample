@@ -446,6 +446,22 @@ resource "aws_lambda_permission" "apigw_appo_options" {
   source_arn = "arn:aws:execute-api:ap-northeast-1:951720451008:${aws_api_gateway_rest_api.sparkl-a.id}/*/OPTIONS/${aws_api_gateway_resource.appointments.path_part}"
 }
 
+resource "aws_lambda_permission" "apigw_confirm_post" {
+  statement_id = "apigw_confirm_post"
+  action = "lambda:InvokeFunction"
+  function_name = "SparklConfirmAppointment"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:ap-northeast-1:951720451008:${aws_api_gateway_rest_api.sparkl-a.id}/*/POST/${aws_api_gateway_resource.appointments.path_part}/${aws_api_gateway_resource.confirm.path_part}"
+}
+
+resource "aws_lambda_permission" "apigw_confirm_options" {
+  statement_id = "apigw_confirm_options"
+  action = "lambda:InvokeFunction"
+  function_name = "NoOp"
+  principal = "apigateway.amazonaws.com"
+  source_arn = "arn:aws:execute-api:ap-northeast-1:951720451008:${aws_api_gateway_rest_api.sparkl-a.id}/*/OPTIONS/${aws_api_gateway_resource.appointments.path_part}/${aws_api_gateway_resource.confirm.path_part}"
+}
+
 
 
 # TODO
