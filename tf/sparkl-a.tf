@@ -1,3 +1,58 @@
+# TODO:
+#lambda subscription
+
+# s3
+resource "aws_s3_bucket" "s3-site" {
+    bucket = "sparkl-a"
+    acl = "public-read"
+    website {
+        index_document = "index.html"
+    }
+    tags {
+        Name = "sparkl-a"
+        Env = "production"
+    }
+    cors_rule {
+        allowed_headers = ["Authorization"]
+        allowed_methods = ["GET"]
+        allowed_origins = ["*"]
+        max_age_seconds = 3000
+    }
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::sparkl-a/*"
+        }
+    ]
+}
+EOF
+}
+
+# dynamodb
+resource "aws_dynamodb_table" "sparkl-appointments" {
+    name = "sparkl-appointments"
+    read_capacity = 1
+    write_capacity = 1
+    hash_key = "client_project"
+    range_key = "created_at"
+    attribute {
+      name = "client_project"
+      type = "S"
+    }
+    attribute {
+      name = "created_at"
+      type = "S"
+    }
+    stream_enabled = true
+    stream_view_type = "NEW_AND_OLD_IMAGES"
+}
+
 # Lambda role
 resource "aws_iam_role" "lambda_exec_role" {
     name = "lambda_exec_role"
@@ -82,19 +137,23 @@ resource "aws_iam_role_policy" "LogAndDynamoDBAccess" {
             "Resource": "arn:aws:logs:*:*:*"
         },
         {
-            "Sid": "PetsDynamoDBReadWrite",
+            "Sid": "DynamoDBReadWrite",
             "Effect": "Allow",
             "Action": [
                 "dynamodb:DeleteItem",
                 "dynamodb:GetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:DescribeStream",
+                "dynamodb:ListStreams",
                 "dynamodb:BatchGetItem",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
-                "dynamodb:Query"
+                "dynamodb:Query",
+                "dynamodb:Scan"
             ],
             "Resource": [
-                "arn:aws:dynamodb:ap-northeast-1:951720451008:table/Pets",
                 "arn:aws:dynamodb:ap-northeast-1:951720451008:table/sparkl-*"
             ]
         }
@@ -157,6 +216,118 @@ EOF
 }
 
 
+# auth0 role
+resource "aws_iam_saml_provider" "auth0-provider" {
+    name = "auth0-provider"
+    saml_metadata_document = "${file("iDC9GHTe9nM2w1L146zn2o7qxEgpoEZI")}"
+}
+
+resource "aws_iam_role" "auth0-api-role" {
+    name = "auth0-api-role"
+    path = "/"
+    assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::951720451008:saml-provider/auth0-provider"
+      },
+      "Action": "sts:AssumeRoleWithSAML",
+      "Condition": {
+        "StringEquals": {
+          "SAML:iss": "urn:ijin.auth0.com"
+        }
+      }
+    },
+    {
+      "Sid": "gateway",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "apigateway.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "admin-policy" {
+    name = "admin-policy"
+    role = "${aws_iam_role.auth0-api-role.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "execute-api:*"
+            ],
+            "Resource": [
+                "arn:aws:execute-api:ap-northeast-1:951720451008:etgu4qrh4a/prod/*/appointments"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role" "auth0-api-social-role" {
+    name = "auth0-api-social-role"
+    path = "/"
+    assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::951720451008:saml-provider/auth0-provider"
+      },
+      "Action": "sts:AssumeRoleWithSAML",
+      "Condition": {
+        "StringEquals": {
+          "SAML:iss": "urn:ijin.auth0.com"
+        }
+      }
+    },
+    {
+      "Sid": "gateway",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "apigateway.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "users-policy" {
+    name = "users-policy"
+    role = "${aws_iam_role.auth0-api-social-role.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "execute-api:*"
+            ],
+            "Resource": [
+                "arn:aws:execute-api:ap-northeast-1:951720451008:etgu4qrh4a/prod/*/appointments/confirm"
+            ]
+        }
+    ]
+}
+EOF
+}
+
 # API GW
 
 ## REST API
@@ -190,7 +361,7 @@ resource "aws_api_gateway_method" "appointments_post" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
   resource_id = "${aws_api_gateway_resource.appointments.id}"
   http_method = "POST"
-  authorization = "NONE"
+  authorization = "AWS_IAM"
 }
 
 resource "aws_api_gateway_method" "appointments_options" {
@@ -204,7 +375,7 @@ resource "aws_api_gateway_method" "confirm_post" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
   resource_id = "${aws_api_gateway_resource.confirm.id}"
   http_method = "POST"
-  authorization = "NONE"
+  authorization = "AWS_IAM"
 }
 
 resource "aws_api_gateway_method" "confirm_options" {
@@ -508,3 +679,10 @@ resource "aws_lambda_permission" "apigw_confirm_options" {
 # json-pointer example
 # aws --region ap-northeast-1 --profile sparkl apigateway update-method-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method OPTIONS --status-code 200 --patch-operations op=remove,path="/responseModels/application~1json"
 # aws --region ap-northeast-1 --profile sparkl apigateway update-method-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method OPTIONS --status-code 200 --patch-operations op=add,path="/responseModels/application~1json; charset=utf-8",value="Empty"     
+
+
+
+# TODO
+# set authorization, since TF doesnt support it.
+#aws --profile sparkl apigateway update-method --rest-api-id etgu4qrh4a --resource-id 5rhr33 --http-method POST --patch-operations op=replace,path="/authorizationType",value="AWS_IAM"
+

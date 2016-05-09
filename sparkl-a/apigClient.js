@@ -21,7 +21,7 @@ apigClientFactory.newClient = function (config) {
             accessKey: '',
             secretKey: '',
             sessionToken: '',
-            region: '',
+            region: 'ap-northeast-1',
             apiKey: undefined,
             defaultContentType: 'application/json',
             defaultAcceptType: 'application/json'
@@ -52,18 +52,10 @@ apigClientFactory.newClient = function (config) {
     }
 
     
-    var endpoint = 'https://63u8wwkbh3.execute-api.ap-northeast-1.amazonaws.com/prod';
-    var parser = document.createElement('a');
-    parser.href = endpoint;
-
-    //Use the protocol and host components to build the canonical endpoint
-    endpoint = parser.protocol + '//' + parser.host;
-
-    //Store any path components that were present in the endpoint to append to API calls
-    var pathComponent = parser.pathname;
-    if (pathComponent.charAt(0) !== '/') { // IE 9
-        pathComponent = '/' + pathComponent;
-    }
+    // extract endpoint and path from url
+    var invokeUrl = 'https://etgu4qrh4a.execute-api.ap-northeast-1.amazonaws.com/prod';
+    var endpoint = /(^https?:\/\/[^\/]+)/g.exec(invokeUrl)[1];
+    var pathComponent = invokeUrl.substring(endpoint.length);
 
     var sigV4ClientConfig = {
         accessKey: config.accessKey,

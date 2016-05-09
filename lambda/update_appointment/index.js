@@ -17,5 +17,5 @@ exports.handler = function(event, context) {
                 context.succeed(null, data);
         }
     };
-    dynamo.putItem({TableName:"sparkl-a", Item:item}, cb);
+    dynamo.putItem({TableName:"sparkl-appointments", Item:item}, cb);
 };

@@ -9,13 +9,10 @@ print('Loading function')
 
 class SlackWrapper:
     #slack
-    __hook = 'T02M3K4PZ/B051H1SD4/tCnPNlI2YhJInc1C0TZfgJ11' #mr-frank
-    #__hook = 'T02MT19RP/B0S3A88LC/R9hsZ8PDTw2vjHmh8vyTKssZ' #teamspk
+    __hook = 'T02M3K4PZ/B051H1SD4/tCnPNlI2YhJInc1C0TZfgJ11'
     __channel = '#test'
-   # __channel = '#cloudwatch_logs'
-    #__icon_url = 'https://raw.githubusercontent.com/donnemartin/dev-setup-resources/master/res/aws_lambda.png'
     __icon_url = 'https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Database_copy_DynamoDB-128.png'
-    __username = 'lambda'
+    __username = 'DynamoDB'
 
     #def __init__(self, hook, channel, icon_url, username):
     #    pass
@@ -64,23 +61,31 @@ def lambda_handler(event, context):
     print("Received event: " + json.dumps(event, indent=2))
     
     if ("awslogs" in event):
-        message, log_group = get_events(event['awslogs']['data'])
+        msg, log_group = get_events(event['awslogs']['data'])
         slack = SlackWrapper(log_group)
         return slack.post(message)
     elif ("Records" in event):
         print('Successfully processed {} records.'.format(len(event['Records'])))
-        r = json.dumps(event['Records'][0])
-        print(r)
-        ddb = json.loads(r)['dynamodb']
-        key = ddb['Keys']
-        if not ('NewImage' in ddb):
-            message = "Deleted appointment for project:" + key['client_project']['S']
-        elif 'confirmed_at' in ddb['NewImage']:
-            message = "Client has confirmed project " + key['client_project']['S'] + " at: " + ddb['NewImage']['confirmed_at']['S']
-        else:
-            message = "Created appointment for project: " + key['client_project']['S']
+        msg = event['Records'][0]
+        print(msg)
         slack = SlackWrapper('DynamoDB')
+        project = msg["dynamodb"]["Keys"]["client_project"]["S"] if ("client_project" in msg["dynamodb"]["Keys"]) else "NONE"
+        if (msg['eventName'] == "INSERT"):
+            message = "Created appointment for project: *" + project + "*"
+        elif (msg['eventName'] == "REMOVE"):
+            message = "Deleted appointment for project: *" + project + "*"
+        elif (msg['eventName'] == "MODIFY"):
+            if ("confirmed_at" not in msg["dynamodb"]["OldImage"]) and ("confirmed_at" in msg["dynamodb"]["NewImage"]):
+                message = ":white_check_mark: Client has confirmed appointment for project *" + project + "* at: " + msg["dynamodb"]["NewImage"]["confirmed_at"]["S"]
+            else:
+                message = "Updated appointment for project: *" + project + "*"
+        else:
+            message = "Could not parse DDB event"
         return slack.post(message)    
     else:
         raise Exception('ERROR: not a cloudwatch logs event')
 
+    #return event['key1']  # Echo back the first key value
+    #raise Exception('Something went wrong')
+    
+    

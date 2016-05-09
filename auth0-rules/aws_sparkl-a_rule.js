@@ -1,14 +1,14 @@
 function (user, context, callback) {
   if(context.clientID === 'Oz0q5DMFlYVi3kbnM76yqCrqSUErJQIN') {
     var socialRoleInfo = {
-      role:"arn:aws:iam::713403314913:role/auth0-api-social-role",
-      principal: "arn:aws:iam::713403314913:saml-provider/auth0-provider",
+      role:"arn:aws:iam::951720451008:role/auth0-api-social-role",
+      principal: "arn:aws:iam::951720451008:saml-provider/auth0-provider",
       isAdmin: false
     };
 
     var adminRoleInfo = {
-      role:"arn:aws:iam::713403314913:role/auth0-api-role",
-      principal: "arn:aws:iam::713403314913:saml-provider/auth0-provider",
+      role:"arn:aws:iam::951720451008:role/auth0-api-role",
+      principal: "arn:aws:iam::951720451008:saml-provider/auth0-provider",
       isAdmin: true
     };
 

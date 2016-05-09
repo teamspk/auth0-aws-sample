@@ -31,7 +31,7 @@ exports.handler = function(event, context) {
                     appointment.confirmed_at = new Date().toISOString();
                     console.log('confirming appointment at: ', appointment.confirmed_at);
                     //TODO: use update
-                    dynamo.put({TableName:"sparkl-appointments2", Item:appointment}, writecb);
+                    dynamo.put({TableName:"sparkl-appointments", Item:appointment}, writecb);
                 }else  {
                     console.log('appointment already confirmed');
                     context.done('That appointment is already confirmed.', null);
@@ -77,7 +77,7 @@ exports.handler = function(event, context) {
                     //console.log('authorized, petId', petId, 'userEmail:', userEmail);
                     //dynamo.getItem({TableName:"Pets", Key:{username:"default"}}, readcb);
                     var params = {
-                        TableName: 'sparkl-appointments2',
+                        TableName: 'sparkl-appointments',
                           KeyConditionExpression: 'client_project = :hkey and created_at = :rkey',
                           ExpressionAttributeValues: {
                               ':hkey': client_project,

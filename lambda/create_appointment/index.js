@@ -30,7 +30,7 @@ exports.handler = function(event, context) {
                 context.succeed(null, data);
         }
     };
-    dynamo.put({TableName:"sparkl-appointments2", Item:item}, cb);
+    dynamo.put({TableName:"sparkl-appointments", Item:item}, cb);
   } else {
     context.fail('invalid params');
   }

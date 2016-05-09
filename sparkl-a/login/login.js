@@ -9,8 +9,8 @@ angular.module( 'sample.login', [
       console.log("isAdmin");
       return {
           "id_token": token, 
-          "role":"arn:aws:iam::713403314913:role/auth0-api-role",
-          "principal": "arn:aws:iam::713403314913:saml-provider/auth0-provider"
+          "role":"arn:aws:iam::951720451008:role/auth0-api-role",
+          "principal": "arn:aws:iam::951720451008:saml-provider/auth0-provider"
 
         };
       }
@@ -18,8 +18,8 @@ angular.module( 'sample.login', [
       console.log("not isAdmin");
       return {
           "id_token": token, 
-          "role":"arn:aws:iam::713403314913:role/auth0-api-social-role",
-          "principal": "arn:aws:iam::713403314913:saml-provider/auth0-provider"
+          "role":"arn:aws:iam::951720451008:role/auth0-api-social-role",
+          "principal": "arn:aws:iam::951720451008:saml-provider/auth0-provider"
         };
     }
   }
