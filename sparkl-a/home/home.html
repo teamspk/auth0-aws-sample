@@ -20,8 +20,8 @@
           <button ng-show="!isAdmin && !a.confirmed_at" class="btn btn-confirm" ng-click="confirmAppointment([a.client_project, a.created_at])">Confirm</button>
           <button ng-show="a.confirmed_at" class="btn btn-confirmed disabled">Confirmed</button>
         </div>
-        <div class="col-md-7 msgtext" >
-            <table class="table">
+        <div class="col-md-6 col-xs-12 msgtext" >
+            <table class="table table-hover">
               <tbody class="files">
               <tr>
                 <th>Project</th>
@@ -38,7 +38,7 @@
               <tr>
                 <th>Documents</th>
                 <td>
-                    <iframe ng-src="{{a.appointment.documents}}" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>
+                    <iframe ng-src="{{a.appointment.documents}}" width="100%" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>
                     <!--      <iframe ng-src="{{a.appointment.documents}}" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>-->
                     <!--                    <iframe src="a.appointment.documents?direction=ASC&theme=dark" width="330" height="400" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen> </iframe>-->
                 </td>

@@ -1,7 +1,7 @@
 body{
   font-family: "proxima-nova",sans-serif;
   text-align: center;
-  font-size: 300%;
+  font-size: 200%;
   font-weight: 100;
 }
 
@@ -107,4 +107,17 @@ label.ng-binding{
   text-align: center;
   font-size: 100%;
   font-weight: 100;
+}
+
+pre {
+  display: block;
+  width: auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: pre;
+  word-wrap: normal;
+}
+
+pre code {
+  white-space: inherit;
 }
