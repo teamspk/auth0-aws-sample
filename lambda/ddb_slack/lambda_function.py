@@ -9,7 +9,8 @@ print('Loading function')
 
 class SlackWrapper:
     #slack
-    __hook = 'T02M3K4PZ/B051H1SD4/tCnPNlI2YhJInc1C0TZfgJ11'
+    #__hook = 'T02M3K4PZ/B051H1SD4/tCnPNlI2YhJInc1C0TZfgJ11' #ijin
+    __hook = 'T02MT19RP/B0S3A88LC/R9hsZ8PDTw2vjHmh8vyTKssZ' #teamspk
     __channel = '#test'
     __icon_url = 'https://cdn2.iconfinder.com/data/icons/amazon-aws-stencils/100/Database_copy_DynamoDB-128.png'
     __username = 'DynamoDB'
