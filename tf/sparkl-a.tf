@@ -447,8 +447,12 @@ resource "aws_api_gateway_method_response" "appointments_get_200" {
   response_models = {
     "application/json" = "Empty"
   }
-  # Access-Control-Allow-Methods
-  # Access-Control-Allow-Origin
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Methods": true,
+    "method.response.header.Access-Control-Allow-Origin": true
+  }
+  PARAMS
 }
 
 resource "aws_api_gateway_method_response" "appointments_post_200" {
@@ -459,8 +463,12 @@ resource "aws_api_gateway_method_response" "appointments_post_200" {
   response_models = {
     "application/json" = "Empty"
   }
-  # Access-Control-Allow-Methods
-  # Access-Control-Allow-Origin
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Methods": true,
+    "method.response.header.Access-Control-Allow-Origin": true
+  }
+  PARAMS
 }
 
 resource "aws_api_gateway_method_response" "appointments_options_200" {
@@ -471,9 +479,13 @@ resource "aws_api_gateway_method_response" "appointments_options_200" {
   response_models = {
     "application/json" = "Empty"
   }
-  # Access-Control-Allow-Headers
-  # Access-Control-Allow-Methods
-  # Access-Control-Allow-Origin
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Headers": true,
+    "method.response.header.Access-Control-Allow-Methods": true,
+    "method.response.header.Access-Control-Allow-Origin": true
+  }
+  PARAMS
 }
 
 resource "aws_api_gateway_method_response" "confirm_post_200" {
@@ -484,19 +496,28 @@ resource "aws_api_gateway_method_response" "confirm_post_200" {
   response_models = {
     "application/json" = "Empty"
   }
-  # Access-Control-Allow-Origin
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Origin": true
+  }
+  PARAMS
 }
 
-#resource "aws_api_gateway_method_response" "confirm_post_403" {
-#  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
-#  resource_id = "${aws_api_gateway_resource.confirm.id}"
-#  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
-#  status_code = "200"
-#  response_models = {
-#    "application/json" = "Empty"
-#  }
-#  # Access-Control-Allow-Origin
-#}
+resource "aws_api_gateway_method_response" "confirm_post_403" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.confirm.id}"
+  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
+  status_code = "403"
+  response_models = {
+    "application/json" = "Empty"
+  }
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Origin": true
+  }
+  PARAMS
+  depends_on = ["aws_api_gateway_method_response.confirm_post_200"]
+}
 
 resource "aws_api_gateway_method_response" "confirm_options_200" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
@@ -506,12 +527,16 @@ resource "aws_api_gateway_method_response" "confirm_options_200" {
   response_models = {
     "application/json; charset=utf-8" = "Empty"
   }
-  # Access-Control-Allow-Headers
-  # Access-Control-Allow-Methods
-  # Access-Control-Allow-Origin
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Headers": true,
+    "method.response.header.Access-Control-Allow-Methods": true,
+    "method.response.header.Access-Control-Allow-Origin": true
+  }
+  PARAMS
 }
 
-## Integration responses
+### Integration responses
 resource "aws_api_gateway_integration_response" "appointments_get_200" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
   resource_id = "${aws_api_gateway_resource.appointments.id}"
@@ -520,8 +545,12 @@ resource "aws_api_gateway_integration_response" "appointments_get_200" {
   response_templates = {
     "application/json" = ""
   }
-  # Access-Control-Allow-Methods = 'POST, GET, OPTIONS'
-  # Access-Control-Allow-Origin  = '*'
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Methods": "'POST, GET, OPTIONS'",
+    "method.response.header.Access-Control-Allow-Origin": "'*'"
+  }
+  PARAMS
 }
 
 resource "aws_api_gateway_integration_response" "appointments_post_200" {
@@ -532,8 +561,12 @@ resource "aws_api_gateway_integration_response" "appointments_post_200" {
   response_templates = {
     "application/json" = ""
   }
-  # Access-Control-Allow-Methods = 'POST, GET, OPTIONS'
-  # Access-Control-Allow-Origin  = '*'
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Methods": "'POST, GET, OPTIONS'",
+    "method.response.header.Access-Control-Allow-Origin": "'*'"
+  }
+  PARAMS
 }
 
 resource "aws_api_gateway_integration_response" "appointments_options_200" {
@@ -544,9 +577,13 @@ resource "aws_api_gateway_integration_response" "appointments_options_200" {
   response_templates = {
     "application/json" = ""
   }
-  # Access-Control-Allow-Headers = 'Content-Type,X-Amz-Date,Authorization,X-Api-Key, Access-Control-Allow-Origin, x-amz-security-token' 
-  # Access-Control-Allow-Methods = 'POST, GET, OPTIONS'
-  # Access-Control-Allow-Origin  = '*'
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key, Access-Control-Allow-Origin, x-amz-security-token'",
+    "method.response.header.Access-Control-Allow-Methods": "'POST, GET, OPTIONS'",
+    "method.response.header.Access-Control-Allow-Origin": "'*'"
+  }
+  PARAMS
 }
 
 resource "aws_api_gateway_integration_response" "confirm_post_200" {
@@ -557,33 +594,45 @@ resource "aws_api_gateway_integration_response" "confirm_post_200" {
   response_templates = {
     "application/json" = ""
   }
-  # Access-Control-Allow-Origin  = '*'
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Origin": "'*'"
+  }
+  PARAMS
 }
 
-#resource "aws_api_gateway_integration_response" "confirm_post_403" {
-#  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
-#  resource_id = "${aws_api_gateway_resource.confirm.id}"
-#  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
-#  status_code = "${aws_api_gateway_method_response.confirm_post_403.status_code}"
-#  #selection_pattern = ".*(fail|not available).*"
-#  response_templates = {
-#    "application/json" = ""
-#  }
-#  # Access-Control-Allow-Origin  = '*'
-#}
+resource "aws_api_gateway_integration_response" "confirm_post_403" {
+  rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
+  resource_id = "${aws_api_gateway_resource.confirm.id}"
+  http_method = "${aws_api_gateway_method.confirm_post.http_method}"
+  status_code = "${aws_api_gateway_method_response.confirm_post_403.status_code}"
+  selection_pattern = ".*(fail|not available).*"
+  response_templates = {
+    "application/json" = ""
+  }
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Origin": "'*'"
+  }
+  PARAMS
+}
 
 resource "aws_api_gateway_integration_response" "confirm_options_200" {
   rest_api_id = "${aws_api_gateway_rest_api.sparkl-a.id}"
   resource_id = "${aws_api_gateway_resource.confirm.id}"
   http_method = "${aws_api_gateway_method.confirm_options.http_method}"
   status_code = "${aws_api_gateway_method_response.confirm_options_200.status_code}"
-  #selection_pattern = '.*(fail|not available).*'
+  selection_pattern = ".*(fail|not available).*"
   response_templates = {
     "application/json" = ""
   }
-  # Access-Control-Allow-Headers = 'Content-Type,X-Amz-Date,Authorization,X-Api-Key, Access-Control-Allow-Origin, x-amz-security-token' 
-  # Access-Control-Allow-Methods = 'POST, GET, OPTIONS'
-  # Access-Control-Allow-Origin  = '*'
+  response_parameters_in_json = <<PARAMS
+  {
+    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key, Access-Control-Allow-Origin, x-amz-security-token'",
+    "method.response.header.Access-Control-Allow-Methods": "'POST, GET, OPTIONS'",
+    "method.response.header.Access-Control-Allow-Origin": "'*'"
+  }
+  PARAMS
 }
 
 resource "aws_api_gateway_deployment" "sparkl-a_deployment" {
@@ -635,12 +684,6 @@ resource "aws_lambda_permission" "apigw_confirm_options" {
 
 
 
-# TODO
-# Wait for https://github.com/hashicorp/terraform/pull/5893 (something wrong with selection_pattern?)
-# Enable CORS
-# Are headers even implemented yet? - https://github.com/hashicorp/terraform/issues/6092
-# Response headers 
-# Integration Response headers 
 
 
 # aws --region ap-northeast-1 --profile sparkl apigateway get-rest-apis --output table
@@ -648,32 +691,6 @@ resource "aws_lambda_permission" "apigw_confirm_options" {
 # aws --region ap-northeast-1 --profile sparkl apigateway get-resources --rest-api-id $rest_id --output table
 # export appo_resource_id=$(aws --region ap-northeast-1 --profile sparkl apigateway get-resources --rest-api-id $rest_id --query 'items[?pathPart==`appointments`].id' --output text)
 # export confirm_resource_id=$(aws --region ap-northeast-1 --profile sparkl apigateway get-resources --rest-api-id $rest_id --query 'items[?pathPart==`confirm`].id' --output text)
-
-# Add 403
-# Method Response /confirm (OPTIONS) 403
-# aws --region ap-northeast-1 --profile sparkl apigateway put-method-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method POST --status-code 403 --response-models '{"application/json": "Empty"}' --response-parameters '{"method.response.header.Access-Control-Allow-Origin":true}'
-# Integration Response /confirm (OPTIONS) 403
-# aws --region ap-northeast-1 --profile sparkl apigateway put-integration-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method POST --status-code 403 --response-templates '{"application/json": ""}' --selection-pattern ".*(fail|not available).*"
-
-# Update headers
-# Method Response: /appointments
-# for method in 'GET' 'POST' 'OPTIONS'; do aws --region ap-northeast-1 --profile sparkl apigateway update-method-response --rest-api-id $rest_id --resource-id $appo_resource_id --http-method $method --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Origin" op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Methods"; done
-# Integration Response: /appointments
-# for method in 'GET' 'POST' 'OPTIONS'; do aws --region ap-northeast-1 --profile sparkl apigateway update-integration-response --rest-api-id $rest_id --resource-id $appo_resource_id --http-method $method --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Origin",value="\"'*'\"" op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Methods",value="\"'POST,GET,OPTIONS'\""; done 
-# CORS /appointments
-# aws --region ap-northeast-1 --profile sparkl apigateway update-method-response --rest-api-id $rest_id --resource-id $appo_resource_id --http-method OPTIONS --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Headers" 
-# aws --region ap-northeast-1 --profile sparkl apigateway update-integration-response --rest-api-id $rest_id --resource-id $appo_resource_id --http-method OPTIONS --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Headers",value="\"'Content-Type,X-Amz-Date,Authorization,X-Api-Key, Access-Control-Allow-Origin, x-amz-security-token'\""
-
-
-# Method Response: /confirm (POST) 
-# aws --region ap-northeast-1 --profile sparkl apigateway update-method-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method POST --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Origin" 
-# Integration Response: /confirm (POST) 
-# aws --region ap-northeast-1 --profile sparkl apigateway update-integration-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method POST --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Origin",value="\"'*'\""
-
-# Method Response: /confirm (OPTIONS) 
-# aws --region ap-northeast-1 --profile sparkl apigateway update-method-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method OPTIONS --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Origin" op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Methods" op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Headers"
-# Integration Response: /confirm (OPTIONS) 
-# aws --region ap-northeast-1 --profile sparkl apigateway update-integration-response --rest-api-id $rest_id --resource-id $confirm_resource_id --http-method OPTIONS --status-code 200 --patch-operations op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Origin",value="\"'*'\"" op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Methods",value="\"'POST,OPTIONS'\"" op=add,path="/responseParameters/method.response.header.Access-Control-Allow-Headers",value="\"'Content-Type,X-Amz-Date,Authorization,X-Api-Key, Access-Control-Allow-Origin, x-amz-security-token'\""
 
 
 # json-pointer example
